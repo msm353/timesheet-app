@@ -67,17 +67,19 @@ h2, h3 { color: #2c3e50; margin-bottom: 15px; padding-bottom: 10px; border-botto
 #recentEntriesContainer .entry-item:last-child, #workEntriesListContainer .entry-item:last-child { margin-bottom: 0; }
 .form-actions { margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; }
 .holiday-indicator { color: #e74c3c; font-weight: bold; font-size:0.9em; margin-left:10px;}
-.manual-holiday-indicator { color: #f39c12; font-weight: bold; font-size:0.9em; margin-left:5px;}
+.day-type-options label { font-size: 0.9em; color: #444; }
 .disabled-inputs { opacity: 0.6; pointer-events: none; background-color: #f5f5f5; }
 /* Visual indicators for entry items */
 .entry-item.is-predefined-holiday { background-color: #fff0f0; border-left: 5px solid #e74c3c;}
-.entry-item.is-manual-holiday:not(.is-predefined-holiday) { background-color: #fff8e1; border-left: 5px solid #f39c12;} /* Apply only if not also predefined */
-.entry-item.is-predefined-holiday.is-manual-holiday { background-color: #ffe8d0; border-left: 5px solid #e67e22;} /* Both true */
+.entry-item.is-manual-holiday:not(.is-predefined-holiday) { background-color: #fff8e1; border-left: 5px solid #f39c12;}
+.entry-item.is-predefined-holiday.is-manual-holiday { background-color: #ffe8d0; border-left: 5px solid #e67e22;}
 .entry-item.is-daily-leave { background-color: #e3f2fd; border-left: 5px solid #3498db;}
 .entry-status-badge { font-size: 0.75em; padding: 2px 6px; border-radius: 4px; color: white; margin-right: 8px; display: inline-block; margin-bottom: 3px;}
 .badge-predefined-holiday { background-color: #e74c3c; }
 .badge-manual-holiday { background-color: #f39c12; }
 .badge-daily-leave { background-color: #3498db; }
+.badge-thursday { background-color: #9b59b6; }
+.badge-friday { background-color: #c0392b; }
 /* Holiday Management UI */
 .holiday-list-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee; }
 .holiday-list-item:last-child { border-bottom: none; }

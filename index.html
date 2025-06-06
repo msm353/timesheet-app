@@ -33,7 +33,12 @@
                         <label for="isDailyLeave" style="display:inline-block; margin-right:5px;"><input type="checkbox" id="isDailyLeave"> مرخصی روزانه کامل</label>
                         <label for="isManualHoliday" style="display:inline-block; margin-right:15px;"><input type="checkbox" id="isManualHoliday"> تعطیل در نظر گرفته شود</label>
                         <span id="holidayIndicator" class="holiday-indicator"></span>
-                    </div></div>
+                    </div>
+                    <div class="form-group day-type-options">
+                        <label for="isThursdayWork" style="display:inline-block; margin-right:5px;"><input type="checkbox" id="isThursdayWork"> پنجشنبه کاری (۴ ساعت)</label>
+                        <label for="isFridayWork" style="display:inline-block; margin-right:15px;"><input type="checkbox" id="isFridayWork"> جمعه کاری (اضافه‌کاری)</label>
+                    </div>
+                    </div>
                 </div>
                 <div id="timeInputsContainer">
                     <div class="row">
@@ -65,28 +70,25 @@
                     <div class="col"><div class="form-group"><label for="reportFromDate">از:</label><input type="date" id="reportFromDate"><div class="date-display-shamsi" id="reportFromDateShamsiDisplay"></div></div></div>
                     <div class="col"><div class="form-group"><label for="reportToDate">تا:</label><input type="date" id="reportToDate"><div class="date-display-shamsi" id="reportToDateShamsiDisplay"></div></div></div>
                 </div><div class="form-actions quick-actions"><button class="btn btn-info" id="generateReportBtn">تولید گزارش</button></div></div>
-            <div id="reportResultsContainer" style="display:none;"><table class="data-table"><thead><tr><th>تاریخ شمسی</th><th>وضعیت تعطیلی</th><th>مرخصی روزانه</th><th>شروع</th><th>پایان</th><th>استراحت</th><th>مرخصی ساعتی</th><th>کل کار</th><th>عادی</th><th>اضافه‌کاری</th><th>توضیحات</th></tr></thead><tbody id="reportTableBody"></tbody></table><div class="summary" id="reportSummaryContainer" style="display:none;"><h2>خلاصه گزارش</h2><div class="summary-grid" id="reportSummaryGrid"></div></div></div>
+            <div id="reportResultsContainer" style="display:none;"><table class="data-table"><thead><tr><th>تاریخ شمسی</th><th>وضعیت روز</th><th>مرخصی روزانه</th><th>شروع</th><th>پایان</th><th>استراحت</th><th>مرخصی ساعتی</th><th>کل کار</th><th>عادی</th><th>اضافه‌کاری</th><th>توضیحات</th></tr></thead><tbody id="reportTableBody"></tbody></table><div class="summary" id="reportSummaryContainer" style="display:none;"><h2>خلاصه گزارش</h2><div class="summary-grid" id="reportSummaryGrid"></div></div></div>
             <div id="noReportData" class="work-entry" style="text-align:center;">ابتدا بازه تاریخ را مشخص و دکمه تولید گزارش را بزنید.</div>
         </div>
         
         <div id="settings" class="tab-content">
-            <div class="settings-section"><h2>تنظیمات عمومی</h2><div class="row"><div class="col"><div class="form-group"><label for="settingStdStartTime">ساعت شروع استاندارد:</label><input type="time" id="settingStdStartTime"></div></div><div class="col"><div class="form-group"><label for="settingStdEndTime">ساعت پایان استاندارد:</label><input type="time" id="settingStdEndTime"></div></div></div><div class="row"><div class="col"><div class="form-group"><label for="settingDailyWorkHours">ساعت کار عادی روزانه:</label><input type="number" id="settingDailyWorkHours" min="1" max="12" step="0.5"></div></div><div class="col"><div class="form-group"><label for="settingMaxOvertime">حد اضافه‌کاری (نمایشی):</label><input type="number" id="settingMaxOvertime" min="0" max="8" step="0.5"></div></div></div></div>
-            <div class="settings-section"><h2>تنظیمات دوره کاری (داشبورد - شمسی)</h2><div class="row"><div class="col"><div class="form-group"><label for="settingPeriodStartMonth">ماه شروع دوره:</label><select id="settingPeriodStartMonth"></select></div></div><div class="col"><div class="form-group"><label for="settingPeriodYear">سال شروع (شمسی):</label><input type="number" id="settingPeriodYear" min="1350" max="1500"></div></div></div></div>
+            <div class="settings-section"><h2>تنظیمات عمومی</h2><div class="row"><div class="col"><div class="form-group"><label for="settingStdStartTime">ساعت شروع استاندارد:</label><input type="time" id="settingStdStartTime"></div></div><div class="col"><div class="form-group"><label for="settingStdEndTime">ساعت پایان استاندارد:</label><input type="time" id="settingStdEndTime"></div></div></div><div class="row"><div class="col"><div class="form-group"><label for="settingDailyWorkHours">ساعت کار عادی روزانه:</label><input type="number" id="settingDailyWorkHours" min="1" max="12" step="0.5"></div></div><div class="col"><div class="form-group"><label for="settingThursdayWorkHours">ساعت کار عادی پنجشنبه:</label><input type="number" id="settingThursdayWorkHours" min="0" max="8" step="0.5"></div></div></div></div>
             <div class="settings-section"><h2>مدیریت روزهای تعطیل رسمی</h2>
                 <div class="form-group">
                     <label>افزودن تعطیلی جدید (شمسی):</label>
                     <div class="row">
                         <div class="col"><input type="number" id="newHolidayYear" placeholder="سال (مثلا 1403)" min="1350" max="1500"></div>
-                        <div class="col"><select id="newHolidayMonth"><!-- Populated by JS --></select></div>
+                        <div class="col"><select id="newHolidayMonth"></select></div>
                         <div class="col"><input type="number" id="newHolidayDay" placeholder="روز" min="1" max="31"></div>
                         <div class="col"><button class="btn btn-info btn-sm" id="addHolidayBtn" style="padding: 8px 15px;">افزودن</button></div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>لیست تعطیلات رسمی فعلی:</label>
-                    <div id="currentHolidaysList" style="max-height: 150px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 8px; background: white;">
-                        <!-- Holidays will be listed here -->
-                    </div>
+                    <div id="currentHolidaysList" style="max-height: 150px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 8px; background: white;"></div>
                      <small>توجه: این لیست برای محاسبه خودکار اضافه‌کاری در روزهای تعطیل رسمی استفاده می‌شود.</small>
                 </div>
             </div>
