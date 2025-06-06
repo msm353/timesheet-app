@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم مدیریت ساعت کاری (نهایی)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header"><h1>سیستم مدیریت ساعت کاری</h1><div class="subtitle">نسخه شمسی، مرخصی، تعطیلات بهبودیافته</div></div>
+        <div class="tab-nav">
+            <button class="tab-btn active" data-tab="dashboard">داشبورد</button>
+            <button class="tab-btn" data-tab="entry">ثبت اطلاعات</button>
+            <button class="tab-btn" data-tab="reports">گزارشات</button>
+            <button class="tab-btn" data-tab="settings">تنظیمات</button>
+            <button class="tab-btn" data-tab="export">خروجی و بکاپ</button>
+        </div>
+        <div id="notificationArea" class="notification-area"></div>
+        
+        <div id="dashboard" class="tab-content active">
+            <div class="period-display" id="dashboardPeriodDisplay">دوره کاری بارگذاری می‌شود...</div>
+            <div class="stats-card-container" id="dashboardStatsContainer"></div>
+            <div class="work-entry"><h3>آخرین فعالیت‌ها (<span id="recentEntriesCount">0</span>)</h3><div id="recentEntriesContainer">هنوز اطلاعاتی ثبت نشده.</div></div>
+        </div>
+        
+        <div id="entry" class="tab-content">
+            <div class="work-entry">
+                <h3 id="entryFormTitle">ثبت ساعت کاری و مرخصی</h3><input type="hidden" id="editingEntryId">
+                <div class="row">
+                    <div class="col"><div class="form-group"><label for="workDate">تاریخ (میلادی):</label><input type="date" id="workDate"><div class="date-display-shamsi" id="workDateShamsiDisplay"></div></div></div>
+                    <div class="col-2"><div class="form-group">
+                        <label for="isDailyLeave" style="display:inline-block; margin-right:5px;"><input type="checkbox" id="isDailyLeave"> مرخصی روزانه کامل</label>
+                        <label for="isManualHoliday" style="display:inline-block; margin-right:15px;"><input type="checkbox" id="isManualHoliday"> تعطیل در نظر گرفته شود</label>
+                        <span id="holidayIndicator" class="holiday-indicator"></span>
+                    </div></div>
+                </div>
+                <div id="timeInputsContainer">
+                    <div class="row">
+                        <div class="col"><div class="form-group"><label for="startTime">ساعت شروع:</label><input type="time" id="startTime"></div></div>
+                        <div class="col"><div class="form-group"><label for="endTime">ساعت پایان:</label><input type="time" id="endTime"></div></div>
+                    </div>
+                    <div class="row">
+                        <div class="col"><div class="form-group"><label for="breakTime">استراحت (دقیقه):</label><input type="number" id="breakTime" value="0" min="0"></div></div>
+                        <div class="col"><div class="form-group"><label for="hourlyLeave">مرخصی ساعتی (دقیقه):</label><input type="number" id="hourlyLeave" value="0" min="0"></div></div>
+                    </div>
+                </div>
+                <div class="row"><div class="col-3"><div class="form-group"><label for="workDescription">توضیحات:</label><textarea id="workDescription" rows="2" placeholder="توضیحات اختیاری..."></textarea></div></div></div>
+                <div class="form-actions quick-actions">
+                    <button class="btn" id="saveWorkEntryBtn">ثبت اطلاعات</button>
+                    <button class="btn btn-secondary" id="clearEntryFormBtn" type="button">پاک کردن فرم</button>
+                </div>
+            </div>
+            <div class="work-entry"><h3>لیست اطلاعات ثبت شده (<span id="totalEntriesCount">0</span>)</h3>
+                 <div class="filter-section" style="padding:15px; margin-bottom:15px; border-width:3px;">
+                    <div class="row">
+                         <div class="col"><div class="form-group"><label for="entryFilterMonth">فیلتر بر اساس ماه (شمسی):</label><select id="entryFilterMonth"><option value="all">همه ماه‌ها</option></select></div></div>
+                        <div class="col"><div class="form-group"><label for="entrySortOrder">ترتیب نمایش:</label><select id="entrySortOrder"><option value="desc">جدیدترین اول</option><option value="asc">قدیمی‌ترین اول</option></select></div></div>
+                    </div></div><div id="workEntriesListContainer"></div></div>
+        </div>
+        
+        <div id="reports" class="tab-content">
+            <div class="filter-section"><h3>فیلتر گزارشات (تاریخ میلادی)</h3>
+                <div class="row">
+                    <div class="col"><div class="form-group"><label for="reportFromDate">از:</label><input type="date" id="reportFromDate"><div class="date-display-shamsi" id="reportFromDateShamsiDisplay"></div></div></div>
+                    <div class="col"><div class="form-group"><label for="reportToDate">تا:</label><input type="date" id="reportToDate"><div class="date-display-shamsi" id="reportToDateShamsiDisplay"></div></div></div>
+                </div><div class="form-actions quick-actions"><button class="btn btn-info" id="generateReportBtn">تولید گزارش</button></div></div>
+            <div id="reportResultsContainer" style="display:none;"><table class="data-table"><thead><tr><th>تاریخ شمسی</th><th>وضعیت تعطیلی</th><th>مرخصی روزانه</th><th>شروع</th><th>پایان</th><th>استراحت</th><th>مرخصی ساعتی</th><th>کل کار</th><th>عادی</th><th>اضافه‌کاری</th><th>توضیحات</th></tr></thead><tbody id="reportTableBody"></tbody></table><div class="summary" id="reportSummaryContainer" style="display:none;"><h2>خلاصه گزارش</h2><div class="summary-grid" id="reportSummaryGrid"></div></div></div>
+            <div id="noReportData" class="work-entry" style="text-align:center;">ابتدا بازه تاریخ را مشخص و دکمه تولید گزارش را بزنید.</div>
+        </div>
+        
+        <div id="settings" class="tab-content">
+            <div class="settings-section"><h2>تنظیمات عمومی</h2><div class="row"><div class="col"><div class="form-group"><label for="settingStdStartTime">ساعت شروع استاندارد:</label><input type="time" id="settingStdStartTime"></div></div><div class="col"><div class="form-group"><label for="settingStdEndTime">ساعت پایان استاندارد:</label><input type="time" id="settingStdEndTime"></div></div></div><div class="row"><div class="col"><div class="form-group"><label for="settingDailyWorkHours">ساعت کار عادی روزانه:</label><input type="number" id="settingDailyWorkHours" min="1" max="12" step="0.5"></div></div><div class="col"><div class="form-group"><label for="settingMaxOvertime">حد اضافه‌کاری (نمایشی):</label><input type="number" id="settingMaxOvertime" min="0" max="8" step="0.5"></div></div></div></div>
+            <div class="settings-section"><h2>تنظیمات دوره کاری (داشبورد - شمسی)</h2><div class="row"><div class="col"><div class="form-group"><label for="settingPeriodStartMonth">ماه شروع دوره:</label><select id="settingPeriodStartMonth"></select></div></div><div class="col"><div class="form-group"><label for="settingPeriodYear">سال شروع (شمسی):</label><input type="number" id="settingPeriodYear" min="1350" max="1500"></div></div></div></div>
+            <div class="settings-section"><h2>مدیریت روزهای تعطیل رسمی</h2>
+                <div class="form-group">
+                    <label>افزودن تعطیلی جدید (شمسی):</label>
+                    <div class="row">
+                        <div class="col"><input type="number" id="newHolidayYear" placeholder="سال (مثلا 1403)" min="1350" max="1500"></div>
+                        <div class="col"><select id="newHolidayMonth"><!-- Populated by JS --></select></div>
+                        <div class="col"><input type="number" id="newHolidayDay" placeholder="روز" min="1" max="31"></div>
+                        <div class="col"><button class="btn btn-info btn-sm" id="addHolidayBtn" style="padding: 8px 15px;">افزودن</button></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>لیست تعطیلات رسمی فعلی:</label>
+                    <div id="currentHolidaysList" style="max-height: 150px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 8px; background: white;">
+                        <!-- Holidays will be listed here -->
+                    </div>
+                     <small>توجه: این لیست برای محاسبه خودکار اضافه‌کاری در روزهای تعطیل رسمی استفاده می‌شود.</small>
+                </div>
+            </div>
+            <div class="settings-section"><h2>تنظیمات نمایش و عملکرد</h2><div class="form-group"><label><input type="checkbox" id="settingAutoFillEndTime"> تکمیل خودکار ساعت پایان</label></div></div>
+            <div class="form-actions quick-actions"><button class="btn" id="saveSettingsBtn">ذخیره تمام تنظیمات</button></div>
+        </div>
+        
+        <div id="export" class="tab-content">
+            <div class="export-options"><h3>خروجی گزارشات (کل داده‌ها)</h3><div class="quick-actions"><button class="btn btn-info" id="exportCsvBtn">CSV</button><button class="btn btn-warning" id="exportJsonBtn">JSON</button></div></div>
+            <div class="export-options"><h3>بکاپ و بازیابی</h3><div class="quick-actions"><button class="btn btn-info" id="createBackupBtn">ایجاد بکاپ</button><input type="file" id="backupFile" accept=".json" style="display:none;"><button class="btn btn-warning" onclick="document.getElementById('backupFile').click();">بازیابی</button><button class="btn btn-danger" id="clearAllDataBtn">پاک کردن داده‌ها</button></div></div>
+            <div class="settings-section"><h3>آمار کلی سیستم</h3><div id="systemStatsContainer"><p>کل رکوردها: <span id="statTotalRecords">0</span></p><p>اولین ثبت (ش): <span id="statFirstRecordDate">-</span></p><p>آخرین ثبت (ش): <span id="statLastRecordDate">-</span></p><p>حجم داده‌ها: <span id="statDataSize">0 KB</span></p></div></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
